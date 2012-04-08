@@ -26,13 +26,26 @@ serial_port = '/dev/ttyUSB0'
 baud = 38400
 retries = 3
 
+def print_syntax():
+	"""Prints the syntax of the program"""
+	print("Syntax: "+sys.argv[0]+" [serial port] [baudrate] [num retries]")
+
 #process command line arguments
-if(len(sys.argv) >= 2):
-	serial_port = sys.argv[1]
-if(len(sys.argv) >= 3):
-	baud = int(sys.argv[2])
-if(len(sys.argv) >= 4):
-	retries = int(sys.argv[3])
+try:
+	if(len(sys.argv) >= 2):
+		serial_port = sys.argv[1]
+	if(len(sys.argv) >= 3):
+		baud = int(sys.argv[2])
+	if(len(sys.argv) >= 4):
+		retries = int(sys.argv[3])
+except:
+	print("User input invalid")
+	print_syntax()
+	exit(-1)
+
+#let the user know about potentially bad situations
+if(retries < 3):
+	print("WARNING: the number of retries is low, engine may not respond")
 
 #get an ELM object
 elm = ELM()
@@ -55,7 +68,7 @@ try:
 
 except serial.SerialException:
 	print("Couldn't open serial port. No device connected?")
-	print("Syntax: dtcScan [serial port] [baudrate] [num retries]")
+	print_syntax()
 	exit(-1)
 except NoResponseError:
 	print("No response from the ELM. Is the engine off?")

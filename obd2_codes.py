@@ -1,9 +1,10 @@
- #!/usr/bin/env python
+#!/usr/bin/env python
 ###########################################################################
-# obd_sensors.py
+# obd_codes.py
 #
 # Copyright 2004 Donour Sizemore (donour@uchicago.edu)
 # Copyright 2009 Secons Ltd. (www.obdtester.com)
+# Copyright 2012 David DiPaola (dsd3275@rit.edu)
 #
 # This file is part of pyOBD.
 #
@@ -21,6 +22,25 @@
 # along with pyOBD; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ###########################################################################
+pcode_prefix = {
+	'0': "P0",
+	'1': "P1",
+	'2': "P2",
+	'3': "P3",
+	'4': "C0",
+	'5': "C1",
+	'6': "C2",
+	'7': "C3",
+	'8': "B0",
+	'9': "B1",
+	'A': "B2",
+	'B': "B3",
+	'C': "U0",
+	'D': "U1",
+	'E': "U2",
+	'F': "U3",
+}
+
 pcodes = {
 	"P0001": "Fuel Volume Regulator Control Circuit/Open",
 	"P0002": "Fuel Volume Regulator Control Circuit Range/Performance",

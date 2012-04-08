@@ -26,7 +26,6 @@ from obd2_codes import pcodes, pcode_prefix
 import time
 import sys
 
-
 class NoResponseError(Exception):
 	"""This is thrown when communication with the ELM module fails"""
 	def __init__(self, msg):
@@ -49,7 +48,6 @@ class ELM(object):
 	_DTC_GET_MSG = "03"+_ELM_NEWLINE
 	#DTC processing info
 	_DTC_CODE_LEN = 4
-	
 
 	"""Local Variables"""
 	#current serial connection

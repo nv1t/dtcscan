@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+###########################################################################
+# dtc_scan
+#
+# Copyright 2012 David DiPaola (dsd3275@rit.edu)
+#
+# dtc_scan is free software; you can redistribute it and/or mod16y
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# dtc_scan is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with dtc_scan; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+###########################################################################
+
+import sys
+from elm import *
+
+serial_port = '/dev/ttyUSB0'
+baud = 38400
+retries = 3
+
+#process command line arguments
+if(len(sys.argv) >= 2):
+	serial_port = sys.argv[1]
+if(len(sys.argv) >= 3):
+	baud = int(sys.argv[2])
+if(len(sys.argv) >= 4):
+	retries = int(sys.argv[3])
+
+#get an ELM object
+elm = ELM()
+
+try:
+	#attempt to connect to the ELM327
+	print("Connecting to ELM on "+serial_port+" at "+str(baud)+"baud...")
+	sys.stdout.flush()  #force the above print to show
+	elm.connect(serial_port, baud, retries)
+
+	#read in the DTCs
+	print("Reading Diagnostic Trouble Codes...")
+	elm.getDtcs()
+
+	#print the DTCs
+	elm.printDtcs()
+
+	#close the connection
+	elm.close()
+
+except serial.SerialException:
+	print("Couldn't open serial port. No device connected?")
+	print("Syntax: dtcScan [serial port] [baudrate] [num retries]")
+	exit(-1)
+except NoResponseError:
+	print("No response from the ELM. Is the engine off?")
+	exit(-1)
+except ValueError:
+	print("Error reading from serial port")
+	exit(-1)
